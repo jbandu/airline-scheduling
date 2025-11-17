@@ -1,0 +1,130 @@
+# SSM Sample Messages for Testing
+# Format: IATA Standard Schedule Messages (SSM)
+# These are real-world examples for testing the SSM Parser Agent
+
+# ==============================================================================
+# NEW - New Flight Schedules
+# ==============================================================================
+
+# Copa Airlines PTY-MIA daily Boeing 737-800
+NEW CM 0100 J PTY MIA 1234567 1DEC24 31MAR25 738 0715 0945 0230 E0 M JP
+
+# Copa Airlines PTY-JFK daily Boeing 737-800
+NEW CM 0201 J PTY JFK 1234567 1DEC24 31MAR25 738 0830 1445 0615 E0 M JP
+
+# American Airlines MIA-JFK daily Airbus A321
+NEW AA 0001 J MIA JFK 1234567 1DEC24 31MAR25 321 0700 1015 0315 E0 B JP
+
+# Delta Air Lines ATL-LAX daily Boeing 737-900
+NEW DL 0100 J ATL LAX 1234567 1DEC24 31MAR25 73H 0930 1145 0415 E0 M JP
+
+# Overnight flight (arrives next day)
+NEW UA 0890 J SFO SYD 1234567 1DEC24 31MAR25 77W 2200 0630 1030 E+1 M JP
+
+# Weekday-only service
+NEW WN 1234 J LAS PHX 123456X 1DEC24 31MAR25 738 0800 1015 0215 E0 S JP
+
+# Tue/Thu/Sat service
+NEW B6 0567 J JFK LAX X2X4X6X 1DEC24 31MAR25 32B 0900 1230 0630 E0 M JP
+
+# ==============================================================================
+# TIM - Time Changes
+# ==============================================================================
+
+# Depart 10 minutes later
+TIM CM 0100 J PTY MIA 1234567 1DEC24 31MAR25 0725 0955
+
+# Significant time change
+TIM AA 0001 J MIA JFK 1234567 15JAN25 15JAN25 0730 1045
+
+# Time change for specific date range
+TIM DL 0100 J ATL LAX 1234567 20JAN25 25JAN25 1000 1215
+
+# ==============================================================================
+# EQT - Equipment Changes
+# ==============================================================================
+
+# Change from 738 to 73J (Boeing 737 MAX 8)
+EQT CM 0100 PTY MIA 1234567 1FEB25 28FEB25 73J
+
+# Change from A321 to A320
+EQT AA 0001 MIA JFK 1234567 10FEB25 15FEB25 320
+
+# Upgrade to larger aircraft
+EQT DL 0100 ATL LAX 1234567 1MAR25 15MAR25 77W
+
+# ==============================================================================
+# CNL - Cancellations
+# ==============================================================================
+
+# Cancel specific dates (holiday week)
+CNL CM 0100 PTY MIA 1234567 24DEC24 26DEC24
+
+# Cancel single day
+CNL AA 0001 MIA JFK 1234567 15JAN25 15JAN25
+
+# Cancel extended period (maintenance)
+CNL DL 0100 ATL LAX 1234567 1FEB25 7FEB25
+
+# ==============================================================================
+# CON - Continuation/Restore
+# ==============================================================================
+
+# Restore previously cancelled flights
+CON CM 0100 PTY MIA 1234567 27DEC24 31DEC24
+
+# Resume service after maintenance
+CON DL 0100 ATL LAX 1234567 8FEB25 28FEB25
+
+# ==============================================================================
+# RPL - Replace
+# ==============================================================================
+
+# Complete replacement of schedule
+RPL CM 0202 J PTY SJO 1234567 1FEB25 31MAR25 738 1030 1145 0115 E0 S JP
+
+# ==============================================================================
+# SKD - Schedule Dump Request
+# ==============================================================================
+
+# Request all schedules for PTY
+SKD CM PTY 1DEC24 31MAR25
+
+# Request all schedules for MIA
+SKD AA MIA 1DEC24 31MAR25
+
+# ==============================================================================
+# Edge Cases
+# ==============================================================================
+
+# Multi-day offset (arrives 2 days later - long-haul)
+NEW QF 0008 J LAX MEL 1234567 1DEC24 31MAR25 380 2300 0700 1500 E+2 M JP
+
+# Flight with suffix
+NEW CM 0100A J PTY MIA 1234567 1DEC24 31MAR25 738 1500 1730 0230 E0 S JP
+
+# Minimum connection time test
+NEW CM 0301 J PTY BOG 1234567 1DEC24 31MAR25 738 0600 0715 0115 E0 M JP
+NEW CM 0302 J BOG PTY 1234567 1DEC24 31MAR25 738 0900 1015 0115 E0 M JP
+
+# Red-eye flight
+NEW AS 0200 J SEA JFK X2X4X6X 1DEC24 31MAR25 738 2330 0745 0515 E+1 M JP
+
+# ==============================================================================
+# Invalid Messages (for error testing)
+# ==============================================================================
+
+# Missing required fields
+# NEW CM 0100 PTY MIA
+
+# Invalid airport code
+# NEW CM 0100 J XXX MIA 1234567 1DEC24 31MAR25 738 0715 0945
+
+# Invalid date format
+# NEW CM 0100 J PTY MIA 1234567 01/12/24 31/03/25 738 0715 0945
+
+# Invalid operating days
+# NEW CM 0100 J PTY MIA 12X4567 1DEC24 31MAR25 738 0715 0945
+
+# Invalid time format
+# NEW CM 0100 J PTY MIA 1234567 1DEC24 31MAR25 738 7:15 9:45
